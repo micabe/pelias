@@ -1,22 +1,22 @@
-{{- if .Values.api.domain }}
-apiVersion: extensions/v1beta1
+{{- if (and .Values.api.ingress.hostname .Values.api.ingress.enabled) }}
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: pelias-api-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
+  {{- range $key, $value := .Values.api.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
 spec:
   rules:
-  - host: {{ .Values.api.domain }}
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: pelias-api-service
-          servicePort: 3100
-  tls:
-  - secretName: pelias-api-tls
-    hosts:
-      - {{ .Values.api.domain }}
+    - host: {{ .Values.api.ingress.hostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pelias-api-service
+                port:
+                  number: 3100
 {{- end -}}

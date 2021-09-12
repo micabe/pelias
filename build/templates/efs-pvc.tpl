@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: pelias-build-pvc
 spec:
-  storageClassName: ""
+  storageClassName: {{ Values.efs.storageClassName }}
   accessModes:
     - ReadWriteMany
   resources:

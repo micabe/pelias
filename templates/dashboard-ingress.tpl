@@ -1,22 +1,22 @@
-{{- if (and .Values.dashboard.domain .Values.dashboard.enabled) }}
-apiVersion: extensions/v1beta1
+{{- if (and .Values.dashboard.ingress.hostname .Values.dashboard.ingress.enabled) }}
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: pelias-dashboard-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
+  {{- range $key, $value := .Values.dashboard.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
 spec:
   rules:
-  - host: {{ .Values.dashboard.domain }}
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: pelias-dashboard-service
-          servicePort: 3030
-  tls:
-  - secretName: pelias-dashboard-tls
-    hosts:
-      - {{ .Values.dashboard.domain }}
+    - host: {{ .Values.dashboard.ingress.hostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pelias-dashboard-service
+                port:
+                  number: 3030
 {{- end -}}

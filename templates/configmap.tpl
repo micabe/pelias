@@ -6,6 +6,7 @@ data:
   pelias.json: |
     {
       "esclient": {
+        "apiVersion": "7.5",
         "hosts": [{
           "host": {{ .Values.elasticsearch.host | quote}},
           "port": {{ .Values.elasticsearch.port }},
@@ -19,7 +20,7 @@ data:
         "settings": {
           "index": {
             "number_of_replicas": "0",
-            "number_of_shards": "12",
+            "number_of_shards": "3",
             "refresh_interval": "1m"
           }
         }
@@ -31,11 +32,13 @@ data:
         },
         "attributionURL": "{{ .Values.api.attributionURL }}",
         "indexName": "{{ .Values.api.indexName }}",
-        {{ if (.Values.api.targets.auto_discover) and ( or (eq .Values.api.targets.auto_discover true) ( eq .Values.api.targets.auto_discover false ) ) }}
+        {{- if .Values.api.targets.auto_discover }}
+        {{- if or (eq .Values.api.targets.auto_discover true) (eq .Values.api.targets.auto_discover false) }}
         "targets": {
           "auto_discover": {{ .Values.api.targets.auto_discover }}
         },
         "exposeInternalDebugTools": {{ .Values.api.exposeInternalDebugTools }},
+        {{- end -}}
         {{- end }}
         "services": {
           {{ if .Values.placeholder.enabled  }}
@@ -89,31 +92,31 @@ data:
         },
         "geonames": {
           "datapath": "/data/geonames",
-          "countryCode": "ALL"
+          "countryCode": "{{ .Values.geonames.countryCode }}",
         },
         "openaddresses": {
           "datapath": "/data/openaddresses",
-          "files": []
+          "files": {{ .Values.openaddresses.files | mustToPrettyJson | indent 10 | trim }}
         },
         "openstreetmap": {
-          "download": [{
-              "sourceURL": "https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf"
-          }],
-          "datapath": "/data/openstreetmap",
-          "import": [{
-            "filename": "planet-latest.osm.pbf"
-          }]
+          {{ if .Values.openstreetmap.download -}}
+          "download": {{ .Values.openstreetmap.download | mustToPrettyJson | indent 10 | trim }},
+          {{ end -}}
+          {{ if .Values.openstreetmap.import -}}
+          "import": {{ .Values.openstreetmap.import | mustToPrettyJson | indent 10 | trim }},
+          {{ end -}}
+          "datapath": "/data/openstreetmap"
         },
         "polyline": {
           "datapath": "/data/polylines",
           "files": ["extract.0sv"]
         },
         "whosonfirst": {
-          "sqlite": {{ .Values.whosonfirst.sqlite }},
-          {{ if .Values.whosonfirst.dataHost }}
-          "dataHost": "{{ .Values.whosonfirst.dataHost}}",
-          {{ end }}
+          "countryCode": "{{ .Values.whosonfirst.countryCode }}",
           "importPostalcodes": true,
+          {{ if .Values.whosonfirst.importPlace -}}
+          "importPlace": {{ .Values.whosonfirst.importPlace | mustToPrettyJson | indent 10 | trim }},
+          {{ end -}}
           "datapath": "/data/whosonfirst"
         }
       }

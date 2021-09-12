@@ -9,5 +9,5 @@ spec:
     ports:
         - protocol: TCP
           port: 3030
-    type: ClusterIP
+    type: {{- if .Values.dashboard.serviceType  }} {{ .Values.dashboard.serviceType }} {{ else }} ClusterIP {{ end }}
 {{- end -}}
