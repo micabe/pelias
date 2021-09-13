@@ -91,7 +91,7 @@ libpostal:
   nodeSelector: {}
 
 interpolation:
-  enabled: false
+  enabled: true
   replicas: 1
   host: "http://pelias-interpolation-service:3000/"
   dockerTag: "latest"
