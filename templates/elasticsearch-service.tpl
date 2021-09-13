@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pelias-elasticsearch
+  name: pelias-elasticsearch-service
 spec:
   ports:
     - name: "9200"
