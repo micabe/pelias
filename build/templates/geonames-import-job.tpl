@@ -9,7 +9,7 @@ spec:
     spec:
       initContainers:
         - name: setup
-          image: busybox
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/busybox:latest
           command: ["/bin/sh","-c"]
           # args: ["mkdir -p /data/geonames && chown 1000:1000 /data/geonames"]
           args: ["mkdir -p /data/geonames"]
