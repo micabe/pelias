@@ -6,18 +6,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: elasticsearch
+      app: elasticsearch
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.yml
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network: "true"
-        io.kompose.service: elasticsearch
+        app: elasticsearch
     spec:
       # EFS is mounted as root only so it needs to be chowned.
       initContainers:
@@ -27,7 +22,7 @@ spec:
           args: ["-c", "1000:1000", "/usr/share/elasticsearch/data"]
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
-              name: elasticsearch-claim0
+              name: elasticsearch-pvc
       containers:
         - image: pelias/elasticsearch:7.5.1
           name: pelias-elasticsearch
@@ -43,10 +38,14 @@ spec:
                 - IPC_LOCK
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
-              name: elasticsearch-claim0
+              name: elasticsearch-pvc
       restartPolicy: Always
       volumes:
-        - name: elasticsearch-claim0
+        - name: elasticsearch-pvc
+          {{- if .Values.pip.pvc.create }}
           persistentVolumeClaim:
-            claimName: elasticsearch-claim0
+            claimName: {{ .Values.elasticsearch.pvc.name }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
 status: {}
