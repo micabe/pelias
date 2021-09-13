@@ -92,7 +92,7 @@ data:
         },
         "geonames": {
           "datapath": "/data/geonames",
-          "countryCode": "{{ .Values.geonames.countryCode }}",
+          "countryCode": "{{ .Values.geonames.countryCode }}"
         },
         "openaddresses": {
           "datapath": "/data/openaddresses",
