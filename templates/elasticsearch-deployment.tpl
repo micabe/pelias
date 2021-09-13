@@ -6,13 +6,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: elasticsearch
+      app: pelias-elasticsearch
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: elasticsearch
+        app: pelias-elasticsearch
     spec:
       # EFS is mounted as root only so it needs to be chowned.
       # initContainers:
