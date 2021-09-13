@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
         - name: download
-          image: pelias/interpolation:{{ .Values.interpolation.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/interpolation:{{ .Values.interpolation.dockerTag }}
           env:
             - name: DOWNLOAD_PATH
               value: {{ .Values.interpolation.downloadPath | quote }}
@@ -42,7 +42,7 @@ spec:
               ephemeral-storage: {{ .Values.interpolation.requests.ephemeral_storage }}
       containers:
         - name: pelias-interpolation
-          image: pelias/interpolation:{{ .Values.interpolation.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/interpolation:{{ .Values.interpolation.dockerTag }}
           volumeMounts:
             - name: data-volume
               mountPath: /data

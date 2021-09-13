@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
         - name: download
-          image: pelias/placeholder:{{ .Values.placeholder.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/placeholder:{{ .Values.placeholder.dockerTag }}
           env:
             - name: DOWNLOAD_URL
               value: {{ .Values.placeholder.storeURL | quote }}
@@ -42,7 +42,7 @@ spec:
               ephemeral-storage: {{ .Values.placeholder.requests.ephemeral_storage }}
       containers:
         - name: pelias-placeholder
-          image: pelias/placeholder:{{ .Values.placeholder.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/placeholder:{{ .Values.placeholder.dockerTag }}
           volumeMounts:
             - name: data-volume
               mountPath: /data

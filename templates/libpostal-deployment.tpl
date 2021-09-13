@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: pelias-libpostal
-          image: pelias/libpostal-service:{{ .Values.libpostal.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/libpostal-service:{{ .Values.libpostal.dockerTag }}
           resources:
             limits:
               memory: 3Gi

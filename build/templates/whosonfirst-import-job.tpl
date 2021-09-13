@@ -16,7 +16,7 @@ spec:
           - name: data-volume
             mountPath: /data
       - name: download
-        image: pelias/whosonfirst:{{ .Values.whosonfirstDockerTag | default "latest" }}
+        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/whosonfirst:{{ .Values.whosonfirstDockerTag | default "latest" }}
         command: ["./bin/download"]
         volumeMounts:
           - name: config-volume
@@ -35,7 +35,7 @@ spec:
             cpu: 1.5
       containers:
       - name: whosonfirst-import-container
-        image: pelias/whosonfirst:{{ .Values.whosonfirstDockerTag | default "latest" }}
+        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/whosonfirst:{{ .Values.whosonfirstDockerTag | default "latest" }}
         command: ["./bin/start"]
         volumeMounts:
           - name: config-volume

@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
         - name: download
-          image: pelias/pip-service:{{ .Values.pip.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/pip-service:{{ .Values.pip.dockerTag }}
           command: ["sh", "-c", {{ .Values.pip.downloadCommand | quote }} ]
           volumeMounts:
             - name: config-volume
@@ -44,7 +44,7 @@ spec:
               ephemeral-storage: {{ .Values.pip.requests.ephemeral_storage }}
       containers:
         - name: pelias-pip
-          image: pelias/pip-service:{{ .Values.pip.dockerTag }}
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/pip-service:{{ .Values.pip.dockerTag }}
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config

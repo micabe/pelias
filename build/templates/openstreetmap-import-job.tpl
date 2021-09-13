@@ -16,7 +16,7 @@ spec:
         - name: data-volume
           mountPath: /data
       - name: download
-        image: pelias/openstreetmap:{{ .Values.openstreetmapDockerTag | default "latest"}}
+        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/openstreetmap:{{ .Values.openstreetmapDockerTag | default "latest"}}
         command: ["./bin/download"]
         volumeMounts:
           - name: config-volume
@@ -35,7 +35,7 @@ spec:
             cpu: 0.5
       containers:
       - name: openstreetmap-import-container
-        image: pelias/openstreetmap:{{ .Values.openstreetmapDockerTag | default "latest"}}
+        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/openstreetmap:{{ .Values.openstreetmapDockerTag | default "latest"}}
         command: ["./bin/start"]
         volumeMounts:
           - name: config-volume

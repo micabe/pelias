@@ -26,7 +26,7 @@ spec:
       #       - mountPath: /usr/share/elasticsearch/data
       #         name: elasticsearch-pvc
       containers:
-        - image: pelias/elasticsearch:7.5.1
+        - image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/elasticsearch:7.5.1
           name: pelias-elasticsearch
           ports:
             - containerPort: 9200
