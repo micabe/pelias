@@ -42,7 +42,7 @@ spec:
       restartPolicy: Always
       volumes:
         - name: elasticsearch-pvc
-          {{- if .Values.pip.pvc.create }}
+          {{- if .Values.pip.elasticsearch.create }}
           persistentVolumeClaim:
             claimName: {{ .Values.elasticsearch.pvc.name }}
           {{- else }}
