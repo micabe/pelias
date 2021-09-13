@@ -9,9 +9,10 @@ spec:
     spec:
       initContainers:
       - name: setup
-        image: busybox
+        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/busybox:latest
         command: ["/bin/sh","-c"]
-        args: ["mkdir -p /data/whosonfirst && chown 1000:1000 /data/whosonfirst"]
+        # args: ["mkdir -p /data/whosonfirst && chown 1000:1000 /data/whosonfirst"]
+        args: ["mkdir -p /data/whosonfirst"]
         volumeMounts:
           - name: data-volume
             mountPath: /data

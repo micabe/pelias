@@ -9,7 +9,7 @@ spec:
     spec:
       initContainers:
         - name: download
-          image: busybox
+          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/busybox:latest
           command: ["sh", "-c"]
           args: ["mkdir -p /data/polylines && wget -O- {{ .Values.polylinesDownloadURL }} | gunzip > /data/polylines/extract.0sv"]
           volumeMounts:
