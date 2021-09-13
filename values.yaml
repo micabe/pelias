@@ -1,7 +1,7 @@
 # override this to use external elasticsearch
 elasticsearch:
   enabled: true
-  host: "elasticsearch-service"
+  host: "pelias-elasticsearch-service"
   port: 9200
   protocol: "http"
   pvc:
