@@ -32,7 +32,7 @@ api:
     hostname: "pelias-api.litec-la.link"
     annotations:
       alb.ingress.kubernetes.io/group.name: "app-ingress"
-      alb.ingress.kubernetes.io/listen-ports: "[{HTTPS: 443}]"
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
       alb.ingress.kubernetes.io/scheme: "internal"
       external-dns.alpha.kubernetes.io/hostname: "pelias-api.litec-la.link"
       kubernetes.io/ingress.class: "alb"
@@ -160,7 +160,7 @@ dashboard:
     hostname: "pelias-dashboard.litec-la.link"
     annotations:
       alb.ingress.kubernetes.io/group.name: "app-ingress"
-      alb.ingress.kubernetes.io/listen-ports: "[{HTTPS: 443}]"
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
       alb.ingress.kubernetes.io/scheme: "internal"
       external-dns.alpha.kubernetes.io/hostname: "pelias-dashboard.litec-la.link"
       kubernetes.io/ingress.class: "alb"
