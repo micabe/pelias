@@ -1,8 +1,15 @@
 # override this to use external elasticsearch
 elasticsearch:
+  enabled: true
   host: "elasticsearch-service"
   port: 9200
   protocol: "http"
+  pvc:
+   create: true
+   name: elasticsearch-pvc
+   storageClass: efs-storageclass
+   accessModes: ReadWriteMany
+   storage: 40Gi
 
 canary:
   elasticsearch:
@@ -109,12 +116,12 @@ interpolation:
     ephemeral_storage: 5Gi
   annotations: {}
   nodeSelector: {}
-  pvc: {}
-#    create: true
-#    name: interpolation-pvc
-#    storageClass: aws-efs
-#    accessModes: ReadWriteMany
-#    storage: 10Gi
+  pvc:
+   create: true
+   name: interpolation-pvc
+   storageClass: efs-storageclass
+   accessModes: ReadWriteMany
+   storage: 10Gi
 #    annotations: {}
 
 pip:
@@ -141,12 +148,12 @@ pip:
     ephemeral_storage: 35Gi
   annotations: {}
   nodeSelector: {}
-  pvc: {}
-#    create: true
-#    name: pip-pvc
-#    storageClass: aws-efs
-#    accessModes: ReadWriteMany
-#    storage: 10Gi
+  pvc:
+   create: true
+   name: pip-pvc
+   storageClass: efs-storageclass
+   accessModes: ReadWriteMany
+   storage: 10Gi
 #    annotations: {}
 
 dashboard:
