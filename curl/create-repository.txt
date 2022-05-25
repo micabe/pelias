@@ -1,11 +1,13 @@
-PUT http://localhost:9200/_snapshot/my_backup
-content-type: application/json
-
-{
-  "type": "azure",
-  "settings": 
-  { 
-    "key": "9Wl7jvLkcqnx2be4Z9jOAZqU/4aBuG1jT3KDvXJcxj9mogscOSAIUuE2Sm22lr7WBfrAXN+l28Qd12dedNTzUw==",
-    "container": "pelias"
+curl -XPUT 'http://localhost:9200/_snapshot/snapou' -H 'Content-Type: application/json' -d '{
+   "type": "fs",
+   "settings": {
+    "location": "snap",
+    "compress": true
   }
-}
+}'
+
+
+curl -XPUT 'http://localhost:9200/_snapshot/snapou/myindexsnapshot' -H 'Content-Type: application/json' -d '{
+   "indices" : "pelias",
+   "include_global_state" : false
+}'
