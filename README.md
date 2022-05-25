@@ -37,13 +37,6 @@ helm install pelias-build --namespace pelias ./build --values values.yaml
 
 ## Restore a snapshot
 
-Untar
-
-```
-cd /usr/share/elasticsearch/data
-tar -zxvf elasticsearch-snapshot.tar.gz
-```
-
 Now everything should be set up so we can begin to restore our snapshot from the repository. We can list the snapshots in the repository with:
 
 GET /\_snapshot/snap/\_all

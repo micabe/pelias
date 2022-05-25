@@ -21,9 +21,9 @@ data:
   restore.sh: |
     #!/bin/bash
 
-
-
-
+    RES=$(curl -XGET 'http://pelias-elasticsearch-service:9200/_snapshot/snap/_all')
+    echo ${RES}
+    
     GETURL="http://pelias-elasticsearch-service:9200/_cat/indices"
 
     while true; 
