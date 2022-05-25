@@ -22,13 +22,6 @@ Start by running all the services
 ```
 helm install pelias --namespace pelias . --values values.yaml
 ```
-
-## Test API
-
-- http://localhost:3100/v1/reverse?point.lon=18.063240&point.lat=59.334591
-- http://localhost:3100/v1/autocomplete?text=stock
-- http://localhost:3100/v1/search?text=stockholm
-
 ## Restore a snapshot
 
 Start by copying the snapshot inside the elasticsearch pod
@@ -42,3 +35,11 @@ Then extract and restore indices into elasticsearch:
 ```
 helm install pelias-build --namespace pelias ./build --values values.yaml
 ```
+
+## Test Pelias API
+
+- http://localhost:3100/v1/reverse?point.lon=18.063240&point.lat=59.334591
+- http://localhost:3100/v1/autocomplete?text=stock
+- http://localhost:3100/v1/search?text=stockholm
+
+Make sure the results match with the ones in /curl/results
