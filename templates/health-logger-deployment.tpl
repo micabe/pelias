@@ -17,7 +17,7 @@ spec:
       labels:
         app: pelias-healthlogger
       annotations:
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/elasticsearch-health-logger:{{ .Values.healthlogger.dockerTag }}
+        image: pelias/elasticsearch-health-logger:{{ .Values.healthlogger.dockerTag }}
         elasticsearch: {{ .Values.elasticsearch.host }}
 {{- if .Values.healthlogger.annotations }}
 {{ toYaml .Values.healthlogger.annotations | indent 8 }}
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: pelias-healthlogger
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/elasticsearch-health-logger:{{ .Values.healthlogger.dockerTag }}
+          image: pelias/elasticsearch-health-logger:{{ .Values.healthlogger.dockerTag }}
           resources:
             limits:
               memory: 0.5Gi

@@ -21,9 +21,12 @@ spec:
 {{ toYaml .Values.pip.annotations | indent 8 }}
 {{- end }}
     spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
       initContainers:
         - name: download
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/pip-service:{{ .Values.pip.dockerTag }}
+          image: pelias/pip-service:{{ .Values.pip.dockerTag }}
           command: ["sh", "-c", {{ .Values.pip.downloadCommand | quote }} ]
           volumeMounts:
             - name: config-volume
@@ -44,7 +47,7 @@ spec:
               ephemeral-storage: {{ .Values.pip.requests.ephemeral_storage }}
       containers:
         - name: pelias-pip
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/pip-service:{{ .Values.pip.dockerTag }}
+          image: pelias/pip-service:{{ .Values.pip.dockerTag }}
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config

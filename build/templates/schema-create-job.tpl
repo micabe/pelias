@@ -8,9 +8,12 @@ spec:
       name: schema-create
     spec:
       {{ if .Values.schemaDrop | default false }}
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
       initContainers:
       - name: schema-drop
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/schema:{{ .Values.schemaDockerTag | default "latest" }}
+        image: pelias/schema:{{ .Values.schemaDockerTag | default "latest" }}
         command: ["node", "scripts/drop_index.js", "-f", "||" , "true"]
         volumeMounts:
           - name: config-volume
@@ -21,7 +24,7 @@ spec:
       {{ end }}
       containers:
       - name: schema-create
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/schema:{{ .Values.schemaDockerTag | default "latest" }}
+        image: pelias/schema:{{ .Values.schemaDockerTag | default "latest" }}
         command: ["./bin/create_index"]
         volumeMounts:
           - name: config-volume

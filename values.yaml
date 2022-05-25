@@ -5,11 +5,18 @@ elasticsearch:
   port: 9200
   protocol: "http"
   pvc:
-   create: true
-   name: elasticsearch-pvc
-   storageClass: efs-storageclass
-   accessModes: ReadWriteMany
-   storage: 40Gi
+    create: true
+    name: pelias-elasticsearch-pvc
+    storageClass: azurefile-csi
+    accessModes: ReadWriteMany
+    storage: 300Gi
+    labels:
+      app.kubernetes.io/component: fulltext-search
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/part-of: pelias
+    annotations:
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: disk.csi.azure.com
 
 canary:
   elasticsearch:
@@ -36,12 +43,12 @@ api:
   nodeSelector: {}
   ingress:
     enabled: true
-    hostname: "pelias-api.litec-la.link"
+    #    hostname: "pelias-api.litec-la.link"
     annotations:
       alb.ingress.kubernetes.io/group.name: "app-ingress"
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
       alb.ingress.kubernetes.io/scheme: "internal"
-      external-dns.alpha.kubernetes.io/hostname: "pelias-api.litec-la.link"
+      #      external-dns.alpha.kubernetes.io/hostname: "pelias-api.litec-la.link"
       kubernetes.io/ingress.class: "alb"
 
 placeholder:
@@ -73,7 +80,7 @@ placeholder:
 #    create: true
 #    name: placeholder-pvc
 #    storageClass: aws-efs
-#    accessModes: ReadWriteMany
+#    accessModes: ReadWriteOnce
 #    storage: 10Gi
 #    annotations: {}
 
@@ -117,12 +124,18 @@ interpolation:
   annotations: {}
   nodeSelector: {}
   pvc:
-   create: true
-   name: interpolation-pvc
-   storageClass: efs-storageclass
-   accessModes: ReadWriteMany
-   storage: 10Gi
-#    annotations: {}
+    create: true
+    name: pelias-interpolation-pvc
+    storageClass: default
+    accessModes: ReadWriteOnce
+    storage: 10Gi
+    labels:
+      app.kubernetes.io/component: fulltext-search
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/part-of: pelias
+    annotations:
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: disk.csi.azure.com
 
 pip:
   enabled: true
@@ -149,12 +162,18 @@ pip:
   annotations: {}
   nodeSelector: {}
   pvc:
-   create: true
-   name: pip-pvc
-   storageClass: efs-storageclass
-   accessModes: ReadWriteMany
-   storage: 10Gi
-#    annotations: {}
+    create: true
+    name: pelias-pip-pvc
+    storageClass: default
+    accessModes: ReadWriteOnce
+    storage: 10Gi
+    labels:
+      app.kubernetes.io/component: fulltext-search
+      app.kubernetes.io/name: elasticsearch-pod
+      app.kubernetes.io/part-of: pelias
+    annotations:
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: disk.csi.azure.com
 
 dashboard:
   enabled: true
@@ -164,12 +183,12 @@ dashboard:
   serviceType: "NodePort"
   ingress:
     enabled: true
-    hostname: "pelias-dashboard.litec-la.link"
+    #    hostname: "pelias-dashboard.litec-la.link"
     annotations:
       alb.ingress.kubernetes.io/group.name: "app-ingress"
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
       alb.ingress.kubernetes.io/scheme: "internal"
-      external-dns.alpha.kubernetes.io/hostname: "pelias-dashboard.litec-la.link"
+      #      external-dns.alpha.kubernetes.io/hostname: "pelias-dashboard.litec-la.link"
       kubernetes.io/ingress.class: "alb"
 
 healthlogger:
@@ -185,27 +204,32 @@ healthlogger:
   nodeSelector: {}
   watch_interval: 60
 
-# Importer settings
 # https://github.com/pelias/geonames
 geonames:
-  countryCode: "AU"
+  countryCode: "FR"
 # https://github.com/pelias/openaddresses
 openaddresses:
   files:
-    - "au/countrywide.csv"
+    - "fr/countrywide.csv"
 # https://github.com/pelias/openstreetmap
 openstreetmap:
   download:
-    - sourceURL: "http://download.geofabrik.de/australia-oceania/australia-latest.osm.pbf"
+    - sourceURL: "http://download.geofabrik.de/europe/sweden-latest.osm.pbf"
   import:
-    - filename: "australia-latest.osm.pbf"
+    - filename: "sweden-latest.osm.pbf"
 # https://github.com/pelias/whosonfirst
 whosonfirst:
-  countryCode: "AU"
+  countryCode: "SE"
   importPlace:
-    - "85632793"
+    - "85633789"
 
-# For the 'build'
-polylinesDownloadURL: "https://s3.amazonaws.com/pelias-data.nextzen.org/polylines/road_network.gz"
+# Importer settings
+polylinesDownloadURL: "https://s3.amazonaws.com/pelias-data.nextzen.org/polylines/sweden.gz"
 efs:
-   storageClassName: "efs-storageclass"
+  pvc:
+    name: pelias-dl-pvc
+    storageClass: azurefile-csi
+    accessModes: ReadWriteMany
+    storage: 50Gi
+    annotations:
+      volume.beta.kubernetes.io/storage-provisioner: disk.csi.azure.com

@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: pelias-dashboard
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/dashboard:{{ .Values.dashboard.dockerTag }}
+          image: pelias/dashboard:{{ .Values.dashboard.dockerTag }}
           env:
             - name: ES_ENDPOINT
               {{- if .Values.elasticsearch.auth }}

@@ -20,12 +20,12 @@ spec:
         app-group: {{ if .Values.api.privateCanary }} pelias-api-private-canary {{ else }} pelias-api {{ end }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/canary-configmap.json.tpl") . | sha256sum }}
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/api:{{ .Values.api.canaryDockerTag }}
+        image: pelias/api:{{ .Values.api.canaryDockerTag }}
         elasticsearch: {{ .Values.canary.elasticsearch.host | default .Values.elasticsearch.host }}
     spec:
       containers:
         - name: pelias-api
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/api:{{ .Values.api.canaryDockerTag }}
+          image: pelias/api:{{ .Values.api.canaryDockerTag }}
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config

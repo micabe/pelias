@@ -3,6 +3,17 @@ kind: ConfigMap
 metadata:
   name: pelias-json-configmap
 data:
+  elasticsearch.yml: |
+    bootstrap.memory_lock: true
+    network.host: 0.0.0.0
+    http.port: 9200
+    node.master: true
+    node.data: true
+    thread_pool:
+      write:
+        queue_size: 1000
+    indices.query.bool.max_clause_count: 4000
+    path.repo: ["/usr/share/elasticsearch/data"]
   pelias.json: |
     {
       "esclient": {

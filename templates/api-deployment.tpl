@@ -18,7 +18,7 @@ spec:
         app: pelias-api
         app-group: pelias-api
       annotations:
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/api:{{ .Values.api.dockerTag }}
+        image: pelias/api:{{ .Values.api.dockerTag }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.tpl") . | sha256sum }}
         elasticsearch: {{ .Values.elasticsearch.host }}
 {{- if .Values.api.annotations }}
@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: pelias-api
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/api:{{ .Values.api.dockerTag }}
+          image: pelias/api:{{ .Values.api.dockerTag }}
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config

@@ -1,0 +1,11 @@
+PUT http://localhost:9200/_snapshot/my_backup
+content-type: application/json
+
+{
+  "type": "azure",
+  "settings": 
+  { 
+    "key": "9Wl7jvLkcqnx2be4Z9jOAZqU/4aBuG1jT3KDvXJcxj9mogscOSAIUuE2Sm22lr7WBfrAXN+l28Qd12dedNTzUw==",
+    "container": "pelias"
+  }
+}

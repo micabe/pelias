@@ -7,9 +7,12 @@ spec:
     metadata:
       name: polylines-import-pod
     spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
       initContainers:
         - name: download
-          image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/busybox:latest
+          image: busybox:latest
           command: ["sh", "-c"]
           args: ["mkdir -p /data/polylines && wget -O- {{ .Values.polylinesDownloadURL }} | gunzip > /data/polylines/extract.0sv"]
           volumeMounts:
@@ -17,7 +20,7 @@ spec:
               mountPath: /data
       containers:
       - name: polylines-import-container
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/polylines:{{ .Values.polylinesDockerTag | default "latest" }}
+        image: pelias/polylines:{{ .Values.polylinesDockerTag | default "latest" }}
         command: ["./bin/start"]
         volumeMounts:
           - name: config-volume
@@ -42,4 +45,4 @@ spec:
                 path: pelias.json
         - name: data-volume
           persistentVolumeClaim:
-            claimName: pelias-build-pvc
+            claimName: {{ .Values.efs.pvc.name }}

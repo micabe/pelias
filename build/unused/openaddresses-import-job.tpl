@@ -1,23 +1,26 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: whosonfirst-import
+  name: openaddresses-import
 spec:
   template:
     metadata:
-      name: whosonfirst-import
+      name: openaddresses-import-pod
     spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
       initContainers:
       - name: setup
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/busybox:latest
+        image: busybox:latest
         command: ["/bin/sh","-c"]
-        # args: ["mkdir -p /data/whosonfirst && chown 1000:1000 /data/whosonfirst"]
-        args: ["mkdir -p /data/whosonfirst"]
+        # args: ["mkdir -p /data/openaddresses && chown 1000:1000 /data/openaddresses"]
+        args: ["mkdir -p /data/openaddresses"]
         volumeMounts:
-          - name: data-volume
-            mountPath: /data
+        - name: data-volume
+          mountPath: /data
       - name: download
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/whosonfirst:{{ .Values.whosonfirstDockerTag | default "latest" }}
+        image: pelias/openaddresses:{{ .Values.openaddressesDockerTag | default "latest" }}
         command: ["./bin/download"]
         volumeMounts:
           - name: config-volume
@@ -29,14 +32,12 @@ spec:
             value: "/etc/config/pelias.json"
         resources:
           limits:
-            memory: 3Gi
-            cpu: 4
+            memory: 4Gi
           requests:
-            memory: 512Mi
-            cpu: 1.5
+            memory: 256Mi
       containers:
-      - name: whosonfirst-import-container
-        image: 599239948849.dkr.ecr.ap-southeast-2.amazonaws.com/pelias/whosonfirst:{{ .Values.whosonfirstDockerTag | default "latest" }}
+      - name: openaddresses-import-container
+        image: pelias/openaddresses:{{ .Values.openaddressesDockerTag | default "latest" }}
         command: ["./bin/start"]
         volumeMounts:
           - name: config-volume
@@ -48,11 +49,9 @@ spec:
             value: "/etc/config/pelias.json"
         resources:
           limits:
-            memory: 3Gi
-            cpu: 1.5
+            memory: 4Gi
           requests:
             memory: 2Gi
-            cpu: 1
       restartPolicy: OnFailure
       volumes:
         - name: config-volume
@@ -63,4 +62,4 @@ spec:
                 path: pelias.json
         - name: data-volume
           persistentVolumeClaim:
-            claimName: pelias-build-pvc
+            claimName: {{ .Values.efs.pvc.name }}

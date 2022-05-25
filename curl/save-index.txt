@@ -1,0 +1,8 @@
+PUT http://localhost:9200/_snapshot/my_backup/myindexsnapshot
+content-type: application/json
+
+
+{
+  "indices" : "myindex",
+  "include_global_state" : false
+}
