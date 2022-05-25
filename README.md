@@ -23,12 +23,6 @@ Start by running all the services
 helm install pelias --namespace pelias . --values values.yaml
 ```
 
-Then download and import indices into elasticsearch
-
-```
-helm install pelias-build --namespace pelias ./build --values values.yaml
-```
-
 ## Test API
 
 - http://localhost:3100/v1/reverse?point.lon=18.063240&point.lat=59.334591
@@ -37,19 +31,14 @@ helm install pelias-build --namespace pelias ./build --values values.yaml
 
 ## Restore a snapshot
 
-Now everything should be set up so we can begin to restore our snapshot from the repository. We can list the snapshots in the repository with:
+Start by copying the snapshot inside the elasticsearch pod
 
-GET /\_snapshot/snap/\_all
+```
+kubectl cp elasticsearch-snapshot.tar.gz <namespace>/<pod-id>:/usr/share/elasticsearch/data
+```
 
-Elasticsearch snapshot restore
-Let’s now restore one of the repositories that we just listed:
+Then extract and restore indices into elasticsearch:
 
-POST /\_snapshot/snap/myindexsnapshot/\_restore
-We can monitor the progress of restoring a snapshot in Kibana with:
-
-GET /\_snapshot/snap/myindexsnapshot
-Restoring snapshot in Elasticsearch
-
-Great! As the response in Kibana suggests, our restore process was successful. You can check that the snapshot indexes are now on the cluster2 by typing:
-
-GET \_cat/indices?pretty
+```
+helm install pelias-build --namespace pelias ./build --values values.yaml
+```

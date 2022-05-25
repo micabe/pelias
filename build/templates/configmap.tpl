@@ -23,13 +23,14 @@ data:
 
     RES=$(curl -XGET 'http://pelias-elasticsearch-service:9200/_snapshot/snap/_all')
     echo ${RES}
-    
-    GETURL="http://pelias-elasticsearch-service:9200/_cat/indices"
 
-    while true; 
-      do 
-        RES=$(curl -XGET $GETURL);
-        echo ${RES}
-        sleep 10;
-      done
+    GETURL="http://pelias-elasticsearch-service:9200/_snapshot/snap/myindexsnapshot"
+
+    curl -XPOST "$GETURL/_restore?wait_for_completion=true&pretty" -H 'Content-Type: application/json' -d"{ \"indices\" : \"pelias\", \"ignore_unavailable\": \"true\", \"include_global_state\": \"false\" }"
+    EXIT=1
+    while [ $EXIT -eq 1 ]; do
+        echo "Restoring snapshot.."
+        sleep 5s
+        EXIT=$(curl -XGET "$GETURL/_status" | grep -c "IN_PROGRESS")
+    done
 
