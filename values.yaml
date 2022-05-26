@@ -7,16 +7,15 @@ elasticsearch:
   pvc:
     create: true
     name: pelias-elasticsearch-pvc
-    storageClass: azurefile-csi
-    accessModes: ReadWriteMany
-    storage: 300Gi
+    storageClass: longhorn-static
+    accessModes: ReadWriteOnce
+    storage: 450Gi
     labels:
       app.kubernetes.io/component: fulltext-search
       app.kubernetes.io/name: elasticsearch
       app.kubernetes.io/part-of: pelias
     annotations:
       pv.kubernetes.io/bound-by-controller: "yes"
-      volume.beta.kubernetes.io/storage-provisioner: disk.csi.azure.com
 
 canary:
   elasticsearch:
