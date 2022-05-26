@@ -7,7 +7,7 @@ elasticsearch:
   pvc:
     create: true
     name: pelias-elasticsearch-pvc
-    storageClass: longhorn-static
+    storageClass: longhorn
     accessModes: ReadWriteOnce
     storage: 450Gi
     labels:
