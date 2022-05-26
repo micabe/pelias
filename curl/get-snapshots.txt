@@ -1,0 +1,9 @@
+curl -XPUT 'http://localhost:9200/_snapshot/snap' -H 'Content-Type: application/json' -d '{
+   "type": "fs",
+   "settings": {
+    "location": "snap",
+    "compress": true
+  }
+}'
+
+curl -XGET 'http://localhost:9200/_snapshot/snap/_all'

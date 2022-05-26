@@ -28,8 +28,10 @@ helm install pelias --namespace pelias . --values values.yaml
 Start by copying the snapshot inside the elasticsearch pod
 
 ```
-kubectl cp elasticsearch-snapshot.tar.gz <namespace>/<pod-id>:/usr/share/elasticsearch/data
+kubectl cp snap data-exploration/<pod-id>:/usr/share/elasticsearch/data
+kubectl port-forward -n data-exploration svc/pelias-elasticsearch-service 9200:9200
 ```
+Browse to http://localhost:9200
 
 Then extract and restore indices into elasticsearch:
 

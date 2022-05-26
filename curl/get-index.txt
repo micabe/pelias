@@ -1,6 +1,0 @@
-POST /_snapshot/snap/myindexsnapshot/_restore
-{
-  "indices": "pelias",
-  "ignore_unavailable": true,
-  "include_global_state": true
-}

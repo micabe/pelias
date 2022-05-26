@@ -1,0 +1,4 @@
+curl -XPOST 'http://localhost:9200/_snapshot/snap/myindexsnapshot/_restore' -H 'Content-Type: application/json' -d '{
+   "indices" : "pelias",
+   "include_global_state" : false
+}'
