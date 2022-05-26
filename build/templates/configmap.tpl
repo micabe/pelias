@@ -8,6 +8,7 @@ data:
 
     cd /tmp
 
+    # Should be /tmp/snap/indices
     tar -zxvf elasticsearch-snapshot.tar.gz
 
     curl -XPUT 'http://pelias-elasticsearch-service:9200/_snapshot/snap' -H 'Content-Type: application/json' -d '{

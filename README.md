@@ -22,6 +22,7 @@ Start by running all the services
 ```
 helm install pelias --namespace pelias . --values values.yaml
 ```
+
 ## Restore a snapshot
 
 Start by copying the snapshot inside the elasticsearch pod
@@ -43,3 +44,15 @@ helm install pelias-build --namespace pelias ./build --values values.yaml
 - http://localhost:3100/v1/search?text=stockholm
 
 Make sure the results match with the ones in /curl/results
+
+## Options
+
+If you do not wish to create ElasticSearch main volume you can set the value to false:
+
+```
+elasticsearch:
+  ...
+  pvc:
+    create: false
+    name: <my-existing-pvc>
+```
