@@ -9,7 +9,7 @@ elasticsearch:
     name: pelias-elasticsearch-pvc
     storageClass: azurefile-csi
     accessModes: ReadWriteMany
-    storage: 300Gi
+    storage: 64Gi
     labels:
       app.kubernetes.io/component: fulltext-search
       app.kubernetes.io/name: elasticsearch
@@ -214,14 +214,14 @@ openaddresses:
 # https://github.com/pelias/openstreetmap
 openstreetmap:
   download:
-    - sourceURL: "http://download.geofabrik.de/europe/sweden-latest.osm.pbf"
+    - sourceURL: "http://download.geofabrik.de/europe/luxembourg-latest.osm.pbf"
   import:
-    - filename: "sweden-latest.osm.pbf"
+    - filename: "luxembourg-latest.osm.pbf"
 # https://github.com/pelias/whosonfirst
 whosonfirst:
-  countryCode: "SE"
+  countryCode: "LU"
   importPlace:
-    - "85633789"
+    - "85633275"
 
 # Importer settings
 polylinesDownloadURL: "https://s3.amazonaws.com/pelias-data.nextzen.org/polylines/sweden.gz"
