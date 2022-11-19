@@ -206,11 +206,11 @@ healthlogger:
 
 # https://github.com/pelias/geonames
 geonames:
-  countryCode: "FR"
+  countryCode: "LU"
 # https://github.com/pelias/openaddresses
 openaddresses:
   files:
-    - "fr/countrywide.csv"
+    - "lu/countrywide.csv"
 # https://github.com/pelias/openstreetmap
 openstreetmap:
   download:
